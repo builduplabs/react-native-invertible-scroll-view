@@ -1,22 +1,40 @@
 'use strict';
 
-import createReactClass from 'create-react-class';
-import PropTypes from 'prop-types';
-import React from 'react';
-import cloneReferencedElement from 'react-clone-referenced-element';
+import React, {
+  PropTypes,
+} from 'react';
 import {
-  Platform,
   ScrollView,
   StyleSheet,
   View,
+  Platform,
 } from 'react-native';
 import ScrollableMixin from 'react-native-scrollable-mixin';
+
+import cloneReferencedElement from 'react-clone-referenced-element';
 
 type DefaultProps = {
   renderScrollComponent: (props: Object) => ReactElement;
 };
 
-let InvertibleScrollView = createReactClass({
+const verticalTransform = [
+  { scaleY: -1 },
+];
+
+const horizontalTransform = [
+  { scaleX: -1 },
+];
+
+if (Platform.OS === 'android') {
+  verticalTransform.push({
+    perspective: 1280,
+  });
+  horizontalTransform.push({
+    perspective: 1280,
+  })
+}
+
+let InvertibleScrollView = React.createClass({
   mixins: [ScrollableMixin],
 
   propTypes: {
@@ -68,9 +86,14 @@ let InvertibleScrollView = createReactClass({
   },
 });
 
-// Added fix to Android 7.0.0 (mostly Huawei phones)
-// https://github.com/expo/react-native-invertible-scroll-view/pull/46
-// This should be fixed in RN 0.48 and thus this fork should no longer be used.
+// let styles = StyleSheet.create({
+//   verticallyInverted: {
+//     transform: verticalTransform,
+//   },
+//   horizontallyInverted: {
+//     transform: horizontalTransform,
+//   },
+// });
 
 let styles = StyleSheet.create({
   verticallyInverted: Platform.select({
