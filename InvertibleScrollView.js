@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  Platform,
 } from 'react-native';
 import ScrollableMixin from 'react-native-scrollable-mixin';
 
@@ -15,6 +16,23 @@ import cloneReferencedElement from 'react-clone-referenced-element';
 type DefaultProps = {
   renderScrollComponent: (props: Object) => ReactElement;
 };
+
+const verticalTransform = [
+  { scaleY: -1 },
+];
+
+const horizontalTransform = [
+  { scaleX: -1 },
+];
+
+if (Platform.OS === 'android') {
+  verticalTransform.push({
+    perspective: 1280,
+  });
+  horizontalTransform.push({
+    perspective: 1280,
+  })
+}
 
 let InvertibleScrollView = React.createClass({
   mixins: [ScrollableMixin],
@@ -70,14 +88,10 @@ let InvertibleScrollView = React.createClass({
 
 let styles = StyleSheet.create({
   verticallyInverted: {
-    transform: [
-      { scaleY: -1 },
-    ],
+    transform: verticalTransform,
   },
   horizontallyInverted: {
-    transform: [
-      { scaleX: -1 },
-    ],
+    transform: horizontalTransform,
   },
 });
 
