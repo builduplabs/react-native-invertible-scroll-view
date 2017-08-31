@@ -27,10 +27,10 @@ const horizontalTransform = [
 
 if (Platform.OS === 'android') {
   verticalTransform.push({
-    perspective: 1280,
+    perspective: 1,
   });
   horizontalTransform.push({
-    perspective: 1280,
+    perspective: 1,
   })
 }
 
